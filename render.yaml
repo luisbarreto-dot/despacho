@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: api-pedidos
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn server:app"
+    envVars:
+      - key: GOOGLE_CREDENTIALS
+        sync: false
+      - key: SHEET_ID
+        sync: false
