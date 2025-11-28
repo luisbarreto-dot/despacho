@@ -1,23 +1,14 @@
 import os
-import datetime
-from flask import Flask, request
+import json
 import gspread
-from google.oauth2 import service_account
-
-# =========================
-# CONFIGURACIÓN GOOGLE SHEETS
-# =========================
-
-SHEET_ID = "1aBpnoIGmsWtiA6k8nKMYEs9lj0Q1tAonrimxjb6rvJg"  # tu archivo actual
+from google.oauth2.service_account import Credentials
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-# IMPORTANTE: este archivo debe estar en la raíz del repo
-SERVICE_ACCOUNT_FILE = "credenciales.json"
+# Leer las credenciales desde la variable de entorno GOOGLE_CREDENTIALS
+creds_info = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
 
-creds = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
-)
 gc = gspread.authorize(creds)
 
 # =========================
